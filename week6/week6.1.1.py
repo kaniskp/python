@@ -24,9 +24,9 @@ def clear():
     else: 
         _ = system('clear')
 def menu():
-    global king
+    global room
     print('-'*20,'\n','\tเพิ่มข้อมูลนักเรียน  [a]\n','\tแสดงข้อมูลนักเรียน [s]\n','\tแก้ไขข้อมูลนักเรียน [e]\n','\tลบข้อมูลนักเรียน   [d]\n','\tออกจากโปรแกรม  [x]\n','-'*20,'')
-    king = str(input(' กรุราใส่รายการที่ต้องการ :'))
+    room = str(input(' กรุราใส่รายการที่ต้องการ :'))
 def addstd():
     global fname,lName,email,Sex,Age,data1
     print('\n\t\t*** เพิ่มข้อมูลนักเรียน ***\n')
@@ -91,20 +91,20 @@ def delete():
     conn.close()
 while True:
     menu()
-    if king == 'a':
+    if room == 'a':
         addstd()
         insert(fname,lName,email,Sex,Age)
         print('\n\tทำรายการเสร็จสิ้น\n')
-    elif king == 's':
+    elif room == 's':
         show()
         print('\n\tทำรายการเสร็จสิ้น\n')
-    elif king == 'e':
+    elif room == 'e':
         edit()
         print('\n\tทำรายการเสร็จสิ้น\n')
-    elif king == 'd':
+    elif room == 'd':
         delete()
         print('\n\tทำรายการเสร็จสิ้น\n')
-    elif king == 'x':
+    elif room == 'x':
         print('\tออกจากดปรแกรม')
         e=str(input('\tต้องการออกจาระบบหรือไม่ yes/no : '))
         if e == 'yes':
