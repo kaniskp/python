@@ -53,7 +53,7 @@ except sqlite3.Error as e :
 
 finally :
     if conn :
-        conn.close () '''
+        conn.close () 
 
 import sqlite3
 conn = sqlite3.connect (r'D:\kanis_python\week6\week6.1.db')
