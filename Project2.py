@@ -24,26 +24,45 @@ def ch2():
 
 def menu(): 
     global choice 
-    print("*"*50)
+    print("*"*65)
+    print('-'*20,'👕 T-shirt Yuedpao 👕','-'*20)
     print('{0:<10}{1:<30}{2:<15}{3}'.format('ลำดับ', 'สีเสื้อ', 'ราคา 100 บาท' ,'จำนวน'))
     result = '''SELECT * from dataadmin '''
     for x in c.execute(result) :
         #print (x)
         print('{0:<7}{1:<30}{2:<15}{3}'.format(x[0],x[1],x[2],x[3]))
+    print("-"*40)
     print("Promotion")
     print("Buy 100 shirt, get Discount 10%")
     print("-"*40)
-    print('-'*40,'\n','\tแสดงข้อมูลสินค้าที่เลือก   [s]\n' , '\tเพิ่มสินค้าที่ต้องการ      [a]\n','\tแก้ไขข้อมูลสินค้า        [e]\n','\tยืนยันสินค้า            [c]\n','\tลบข้อมูลสินค้า          [d]\n','\tเข้าสู่ระบบโดยผู้ดูแล     [p]\n','\tออกจากโปรแกรม       [x]\n','-'*40,'')
-    choice = str(input(' กรุราใส่รายการที่ต้องการ :'))
+    print('\n','\tแสดงข้อมูลสินค้าที่เลือก   [s]\n' , '\tเพิ่มสินค้าที่ต้องการ      [a]\n','\tแก้ไขข้อมูลสินค้า        [e]\n','\tยืนยันสินค้า            [c]\n','\tลบข้อมูลสินค้า          [d]\n','\tเข้าสู่ระบบโดยผู้ดูแล     [p]\n','\tออกจากโปรแกรม       [x]\n','-'*40,'')
 
 def menu2(): 
+    login()
     global choice2
-    print("*"*50)
-    print("For admin")
-    print('-'*40,'\n','\tแสดงข้อมูลสินค้า                  [s]\n' , '\tเพิ่มสินค้าที่ต้องการ                [a]\n','\tแก้ไขข้อมูลสินค้า                  [e]\n','\tลบข้อมูลสินค้า                    [d]\n','\tออกจากโปรแกรมแล้วกลับไปหน้าหลัก   [x]\n','-'*40,'')
-    choice2 = str(input(' กรุราใส่รายการที่ต้องการ :'))
+    while(True):
+        print('\n',"*"*50)
+        print("For admin")
+        print('-'*40,'\n','\tแสดงข้อมูลสินค้า                  [s]\n' , '\tเพิ่มสินค้าที่ต้องการ                [a]\n','\tแก้ไขข้อมูลสินค้า                  [e]\n','\tลบข้อมูลสินค้า                    [d]\n','\tออกจากโปรแกรมแล้วกลับไปหน้าหลัก   [x]\n','-'*40,'')
+        choice2 = str(input(' กรุณาใส่รายการที่ต้องการ : '))
+        if choice2 == "s":
+            sshirt2()
+        elif choice2 == "a":
+            nameblock3()
+            insert_dataadmin(Color,Price,Quantity)
+        elif choice2 == "e":
+            modify2()
+        elif choice2 == "d":
+            delete2()
+        elif choice2 == "x":
+            print('ออกจากโปรแกรมแล้วกลับไปหน้าหลัก ')
+            Exitt1 = str(input('ต้องการออกจากโปรแกรมหรือไม่ y/n :'))
+            Exitt1=Exitt1.lower()
+            if Exitt1 == 'y' :
+                break
+            elif Exitt1== 'n':
+                print('')
     
-
 def sshirt():
     print('{0:<10}{1:<30}{2:<15}{3:<20}{4}'.format('ลำดับ','เวลา', 'สีเสื้อ', 'ราคา 100 บาท' ,'จำนวน'))
     result = '''SELECT * from shopshirt '''
@@ -56,8 +75,6 @@ def sshirt2():
     for x in c.execute(result) :
         print('{0:<7}{1:<30}{2:<10}{3:<5}'.format(x[0],x[1],x[2],x[3]))
     
-    
-
 def nameblock():
     global datetime,Color,Price,Quantity,Datetimes
     x = datetime.datetime.now()
@@ -83,40 +100,24 @@ def nameblock3():
     Color = input('สีเสื้อ :\t')
     Price = ('100')
     Quantity = input('จำนวน :\t')
-    
+   
 def login():
     try:
-        spassword = int(input('Enter password : '))
-        if spassword == 1234 :
-            print('successful!')
-            try:
-                while True:
-                    menu2()
-                    if choice2 == "s":
-                        sshirt2()
-                    elif choice2 == "a":
-                        nameblock3()
-                        insert_dataadmin(Color,Price,Quantity)
-                    elif choice2 == "e":
-                        modify2()
-                    elif choice2 == "d":
-                        delete2()
-                    elif choice2 == "x":
-                        print('ออกจากโปรแกรมแล้วกลับไปหน้าหลัก ')
-                        Exitt1 = str(input('ต้องการออกจากโปรแกรมหรือไม่ y/n :'))
-                        Exitt1=Exitt1.lower()
-                        if Exitt1 == 'y' :
-                            menu()
-                        elif Exitt1== 'n':
-                            print('')
-                    else:
-                        print('กรุณาใส่หมายเลขให้ถูกต้อง')
-            except:
-                print('กรุณาใส่หมายเลขให้ถูกต้อง')
+        verusername = input('Enter user : ')
+        vuser = [verusername,]
+        verpassword = input('Enter password : ')
+        vpassword = [verpassword,]
+        c.execute('SELECT * FROM login WHERE user = ?',vuser)
+        c.execute('SELECT * FROM login WHERE password = ?',vpassword)
+        result = c.fetchone()
+        if verusername == result[0] and verpassword == result[1]:
+            print('ยืนยันการเข้าระบบสินค้า!')
         else:
-            print('password are incorrect please try again!')
+            print('user or password are incorrect please try again!')
     except:
-        print('รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่')
+        print('ไม่มีชื่อผู้ใช้นี้ในระบบ กรุณาลองใหม่')
+            
+    conn.commit()
 
 def insert_shopshirt(Datetimes,Color,Price,Quantity) :
     try :
@@ -148,9 +149,9 @@ def insert_dataadmin (Color,Price,Quantity) :
     finally :
         if conn : 
             conn.close ()
-    menu2()
 
 def calculate1():
+    showlist()
     c=conn.cursor()
     c.execute('''SELECT sum(Quantity) FROM shopshirt''')
     result=c.fetchone()
@@ -163,15 +164,19 @@ def calculate1():
        d = (10/100)*sum
        e = sum - d
        print("ส่วนลด = {}".format(d))
-       print("ราคาที่ต้องจ่าย = {}\n".format(e))
+       print("ราคาที่ต้องจ่าย = {} บาท\n".format(e))
     else:
         print()
     
+def showlist():
+    print('{0:<10}{1}'.format('สีเสื้อ','จำนวน'))
+    result = '''SELECT * FROM shopshirt '''
+    for x in c.execute(result) :
+        print('{0:<7}{1}'.format(x[2],x[4]))
 
-    
-    
 def delete():
     number = input('เลือกรายการที่จะลบ : ')
+    number = (number,)
     try :
         conn = sqlite3.connect(r'D:\kanis_python\Project2.db')
         c = conn.cursor()
@@ -186,24 +191,17 @@ def delete():
 
 def delete2():
     number1 = input('เลือกรายการที่จะลบ : ')
-    try :
-        conn = sqlite3.connect(r'D:\kanis_python\Project2.db')
-        c = conn.cursor()
-        c.execute('''DELETE FROM dataadmin WHERE NO = ?''',number1)
-        conn.commit()
-       
-        print('{0:<10}{1:<30}{2:<15}{3}'.format('ลำดับ', 'สีเสื้อ', 'ราคา 100 บาท' ,'จำนวน'))
-        result = '''SELECT * from dataadmin '''
-        for x in c.execute(result) :
-            print('{0:<7}{1:<30}{2:<10}{3:<5}'.format(x[0],x[1],x[2],x[3]))
-        menu2()
-        conn.close()
-    except sqlite3.Error as e :
-        print('Failed to data : ',e)
-    finally :
-        if conn :
-            conn.close()
-
+    number1 = (number1,)
+    conn = sqlite3.connect(r'D:\kanis_python\Project2.db')
+    c = conn.cursor()
+    c.execute('''DELETE FROM dataadmin WHERE NO = ?''',number1)
+    conn.commit()
+    print('{0:<10}{1:<30}{2:<15}{3}'.format('ลำดับ', 'สีเสื้อ', 'ราคา 100 บาท' ,'จำนวน'))
+    result = '''SELECT * from dataadmin '''
+    for x in c.execute(result) :
+        print('{0:<7}{1:<30}{2:<10}{3:<5}'.format(x[0],x[1],x[2],x[3]))
+    conn.close()
+    
 def modify():
     ch()
     nameblock1()
@@ -213,7 +211,6 @@ def modify():
     c.execute('''UPDATE shopshirt SET Color = ? ,Price = ? ,Quantity = ? WHERE NO = ?''',update_data)
     conn.commit()
     conn.close()
-
 
 def modify2():
     ch2()
@@ -234,6 +231,7 @@ def clear():
 while True:
     try:
         menu()
+        choice = str(input(' กรุณาใส่รายการที่ต้องการ :'))
         if choice == "s":
             sshirt()
         elif choice == "a":
@@ -246,7 +244,8 @@ while True:
         elif choice == "d":
             delete()
         elif choice == "p":
-            login()
+            menu2()
+            continue
         elif choice == "x":
             print('ออกจากโปรแกรม ')
             Exitt = str(input('ต้องการออกจากโปรแกรมหรือไม่ y/n :'))
@@ -263,6 +262,5 @@ while True:
     except:
         print('กรุณาใส่หมายเลขให้ถูกต้อง')
 
-    
 conn.commit()
 conn.close()
