@@ -1,7 +1,7 @@
 import sqlite3
 import datetime
 from os import system,name
-conn = sqlite3.connect(r'D:\kanis_python\Project\Project2.db')
+conn = sqlite3.connect(r'D:\kanis_python\Project2.db')
 c = conn.cursor()
 #c.execute('''CREATE TABLE shopshirt(NO integer PRIMARY KEY AUTOINCREMENT,
     #Datetimes varchar(100) NOT NULL,
@@ -120,7 +120,7 @@ def login():
 
 def insert_shopshirt(Datetimes,Color,Price,Quantity) :
     try :
-        conn = sqlite3.connect(r"D:\kanis_python\Project\Project2.db")
+        conn = sqlite3.connect(r"D:\kanis_python\Project2.db")
         c =conn.cursor()
         sql = '''INSERT INTO shopshirt (Datetimes,Color,Price,Quantity) VALUES (?,?,?,?)'''
         data = (Datetimes,Color,Price,Quantity)
@@ -136,7 +136,7 @@ def insert_shopshirt(Datetimes,Color,Price,Quantity) :
 
 def insert_dataadmin (Color,Price,Quantity) :
     try :
-        conn = sqlite3.connect (r'D:\kanis_python\Project\Project2.db')
+        conn = sqlite3.connect (r'D:\kanis_python\Project2.db')
         c = conn.cursor()
         sql = '''INSERT INTO dataadmin (Color,Price,Quantity)VALUES (?,?,?)'''
         data = (Color,Price,Quantity)
@@ -173,7 +173,7 @@ def calculate1():
 def delete():
     number = input('เลือกรายการที่จะลบ : ')
     try :
-        conn = sqlite3.connect(r'D:\kanis_python\Project\Project2.db')
+        conn = sqlite3.connect(r'D:\kanis_python\Project2.db')
         c = conn.cursor()
         c.execute('''DELETE FROM shopshirt WHERE NO = ?''',number)
         conn.commit()
@@ -185,14 +185,19 @@ def delete():
             conn.close()
 
 def delete2():
-    number1 =int(input('เลือกรายการที่จะลบ : '))
+    number1 = input('เลือกรายการที่จะลบ : ')
     try :
-        conn = sqlite3.connect(r'D:\kanis_python\Project\Project2.db')
+        conn = sqlite3.connect(r'D:\kanis_python\Project2.db')
         c = conn.cursor()
         c.execute('''DELETE FROM dataadmin WHERE NO = ?''',number1)
         conn.commit()
-        conn.close()
+       
+        print('{0:<10}{1:<30}{2:<15}{3}'.format('ลำดับ', 'สีเสื้อ', 'ราคา 100 บาท' ,'จำนวน'))
+        result = '''SELECT * from dataadmin '''
+        for x in c.execute(result) :
+            print('{0:<7}{1:<30}{2:<10}{3:<5}'.format(x[0],x[1],x[2],x[3]))
         menu2()
+        conn.close()
     except sqlite3.Error as e :
         print('Failed to data : ',e)
     finally :
@@ -202,7 +207,7 @@ def delete2():
 def modify():
     ch()
     nameblock1()
-    conn = sqlite3.connect (r'D:\kanis_python\Project\Project2.db')
+    conn = sqlite3.connect (r'D:\kanis_python\Project2.db')
     c = conn.cursor()
     update_data = (Color,Price,Quantity,ch_num)
     c.execute('''UPDATE shopshirt SET Color = ? ,Price = ? ,Quantity = ? WHERE NO = ?''',update_data)
@@ -213,7 +218,7 @@ def modify():
 def modify2():
     ch2()
     nameblock2()
-    conn = sqlite3.connect (r'D:\kanis_python\Project\Project2.db')
+    conn = sqlite3.connect (r'D:\kanis_python\Project2.db')
     c = conn.cursor()
     update_data = (Color,Price,Quantity,ch_num2)
     c.execute('''UPDATE dataadmin SET Color = ? ,Price = ? ,Quantity = ? WHERE NO = ?''',update_data)
